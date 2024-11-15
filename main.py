@@ -1,5 +1,6 @@
 import sqlite3
 import streamlit as st
+import sys
 
 user_db = sqlite3.connect("user_database.db")
 user_db_cursor = user_db.cursor()
@@ -18,10 +19,17 @@ if st.checkbox("Yes, I want to login"):
                            """)
     username_in_database = user_db_cursor.fetchone()[0]
     if username_in_database:
-        pass
+        st.text_input("Password: ")
+        user_db_cursor.execute("SELECT password FROM user_data WHERE username = ?", (username_local,))
+        password_correct = user_db_cursor.fetchone()
+        if password_correct:
+            st.success("Login successful.")
+        else:
+            st.error("Incorrect password")
+            sys.exit()
     else:
         st.text("Sorry, you have not signed up yet!")
-        exit()
+        sys.exit()
 elif st.checkbox("No, I don't want to login"):
     st.text("Sign up?")
     if st.checkbox("Yes"):
@@ -32,7 +40,7 @@ elif st.checkbox("No, I don't want to login"):
         username_in_database = user_db_cursor.fetchone()[0]
         if username_in_database:
             print("Username taken")
-            exit()
+            sys.exit()
         else:
             password_local = str(st.text_input("Enter password: ")).replace("\n", "")
             user_db_cursor.execute("INSERT INTO user_data(username, password, balance) VALUES (?, ?, ?)", (username_local, password_local, 2000.00))
