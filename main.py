@@ -1,6 +1,7 @@
 import sqlite3
 import streamlit as st
 import sys
+import time
 
 user_db = sqlite3.connect("user_database.db")
 user_db_cursor = user_db.cursor()
@@ -14,9 +15,8 @@ st.success("Welcome to The Trading Simulator!")
 st.text("Login?")
 if st.checkbox("Yes, I want to login"):
     username_local = st.text_input("Enter username: ")
-    user_db_cursor.execute("""
-                           SELECT EXISTS(SELECT 1 FROM user_data WHERE username = ?)", (username_local,))
-                           """)
+    time.sleep(5)
+    user_db_cursor.execute("SELECT EXISTS(SELECT 1 FROM user_data WHERE username = ?)", (username_local,))
     username_in_database = user_db_cursor.fetchone()[0]
     if username_in_database:
         st.text_input("Password: ")
@@ -28,15 +28,13 @@ if st.checkbox("Yes, I want to login"):
             st.error("Incorrect password")
             sys.exit()
     else:
-        st.text("Sorry, you have not signed up yet!")
+        st.error("Sorry, you have not signed up yet!")
         sys.exit()
 elif st.checkbox("No, I don't want to login"):
     st.text("Sign up?")
     if st.checkbox("Yes"):
         username_local = str(st.text_input("Enter username: ")).replace("\n", "")
-        user_db_cursor.execute("""
-                               SELECT EXISTS(SELECT 1 FROM user_data WHERE username = ?)", (username_local,))
-                               """)
+        user_db_cursor.execute("SELECT EXISTS(SELECT 1 FROM user_data WHERE username = ?)", (username_local,))
         username_in_database = user_db_cursor.fetchone()[0]
         if username_in_database:
             print("Username taken")
