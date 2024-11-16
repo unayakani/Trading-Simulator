@@ -1,16 +1,13 @@
-import sqlite3
-import streamlit as st
+import sys
+import os
 
-user_db = sqlite3.connect("../database/user_database.db")
-user_db_cursor = user_db.cursor()
-user_db_cursor.execute("CREATE TABLE IF NOT EXISTS user_data (username TEXT NOT NULL, password TEXT NOT NULL, balance REAL)")
+# Add the Modules folder to the system path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))
 
-st.image("./media/logo.png")
-login_signup = st.radio(
-        "Choose one option: ",
-        ["Login", "Signup"],
-        )
-form = st.form("signup_login")
-username_local = form.text_input("Username: ")
-password_local = form.text_input("Password: ")
-form.form_submit_button("Submit")
+import login # type: ignore
+
+def main():
+    login.main()
+
+if __name__ == "__main__":
+    main()
