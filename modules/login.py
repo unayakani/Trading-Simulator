@@ -4,7 +4,7 @@ import streamlit as st
 
 # Functions
 def db_connect():
-    db = sq.connect("database.db")
+    db = sq.connect("../Databases/user_database.db")
     db_cursor = db.cursor()
     db_cursor.execute("CREATE TABLE IF NOT EXISTS user_data (username TEXT NOT NULL, password_hash TEXT NOT NULL, balance REAL)") 
     return db, db_cursor
