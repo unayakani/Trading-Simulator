@@ -3,21 +3,26 @@ import streamlit
 def choose() -> str:
     with streamlit.form("choose_market"):
         option = streamlit.selectbox(
-                "Choose a market: ",
-                ["Yogendra Labs"],
+            "Choose a market: ",
+            ["Yogendra Labs", "Falconex Networks Inc", "Hyperion Invest X", "Veridium Corp", "Zenthic Innovations"],
         )
-    return str(option)
+        submit_button = streamlit.form_submit_button(label="Submit")
+    return str(option) if submit_button else ""
 
 def main():
     option = choose()
     match option:
         case "Yogendra Labs":
+            
             pass
-        case "a":
+        case "Falconex Networks Inc":
             pass
-        case "b":
+        case "Hyperion Invest X":
             pass
-        case "c":
+        case "Veridium Corp":
             pass
-        case "d":
+        case "Zenthic Innovations":
             pass
+
+if __name__ == "__main__":
+    main()
