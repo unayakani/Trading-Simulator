@@ -9,7 +9,7 @@ def choose() -> str:
         submit_button = streamlit.form_submit_button(label="Submit")
     return str(option) if submit_button else ""
 
-def main():
+def main(user):
     option = choose()
     match option:
         case "Yogendra Labs":
