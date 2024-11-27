@@ -1,15 +1,17 @@
 import webview as wb
 import threading as tr
 import subprocess as sb
+from subprocess import check_output
 import time
-import os
-import signal
 
 def start_sim():
-    sb.run(["streamlit", "run", "main.py", "--server.headless", "True"])
+    global stream
+    stream = sb.Popen(["streamlit", "run", "main.py", "--server.headless", "True"])
 
 def on_closing():
-    os.kill(os.getpid(), signal.SIGINT)
+    stream.terminate()
+    print("Closing...")
+    stream.wait()
 
 if __name__ == "__main__":
     tr.Thread(target=start_sim).start()

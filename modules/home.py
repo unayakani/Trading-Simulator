@@ -25,4 +25,4 @@ def main(user):
             pass
 
 if __name__ == "__main__":
-    main()
+    main(None)
