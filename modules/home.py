@@ -1,28 +1,39 @@
-import streamlit
+import streamlit as st
+import time
 
-def choose() -> str:
-    with streamlit.form("choose_market"):
-        option = streamlit.selectbox(
-            "Choose a market: ",
-            ["Yogendra Labs", "Falconex Networks Inc", "Hyperion Invest X", "Veridium Corp", "Zenthic Innovations"],
-        )
-        submit_button = streamlit.form_submit_button(label="Submit")
-    return str(option) if submit_button else ""
+def main(state, user):
+    placeholder = st.empty()
+    with placeholder.container():
+        t = st.title("Welcome to Trade Simulator")
+        h = st.header("You are now logged in")
 
-def main(user):
-    option = choose()
-    match option:
-        case "Yogendra Labs":
+        st.sidebar.image("./media/logo.png")
+        st.sidebar.title("Navigation Bar")
+
+        page = st.sidebar.selectbox("", ["Choose a page", "Profile", "Trade", "Status"])
+
+        if page == "Profile":
+            t.empty()
+            h.empty()
+            import profile_page 
+            profile_page.main(user)
+
+        if page == "Trade":
+            t.empty()
+            h.empty()
+            import trade_page 
+            trade_page.main(user)
+
+        if page == "Status":
+            t.empty()
+            h.empty()
+            import status_page 
+            status_page.main(user)
+
+        st.sidebar.success("Feel Free to Navigate")
             
-            pass
-        case "Falconex Networks Inc":
-            pass
-        case "Hyperion Invest X":
-            pass
-        case "Veridium Corp":
-            pass
-        case "Zenthic Innovations":
-            pass
-
-if __name__ == "__main__":
-    main(None)
+        if st.sidebar.button("Logout"):
+            state = 'Logged Out'
+            st.write("Logging out...")
+            time.sleep(2)
+            return state
